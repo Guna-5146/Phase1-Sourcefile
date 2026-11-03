@@ -1,0 +1,83 @@
+{
+  "functions": [
+    {
+      "function": "registerLand",
+      "gasMedian": 275191,
+      "latencyMsMedian": 156.1,
+      "latencyMsP95": 240.5
+    },
+    {
+      "function": "transferOwnership",
+      "gasMedian": 60708,
+      "latencyMsMedian": 107.8,
+      "latencyMsP95": 143.1
+    },
+    {
+      "function": "updateLandPrice",
+      "gasMedian": 32936,
+      "latencyMsMedian": 92.3,
+      "latencyMsP95": 118
+    },
+    {
+      "function": "updateLandArea",
+      "gasMedian": 32856,
+      "latencyMsMedian": 82.6,
+      "latencyMsP95": 114.3
+    },
+    {
+      "function": "verifyLand",
+      "gasMedian": 30595,
+      "latencyMsMedian": 89,
+      "latencyMsP95": 126.6
+    }
+  ],
+  "throughput": [
+    {
+      "batch": 10,
+      "seconds": 1.02,
+      "tps": 9.84
+    },
+    {
+      "batch": 50,
+      "seconds": 5.18,
+      "tps": 9.66
+    },
+    {
+      "batch": 100,
+      "seconds": 10.53,
+      "tps": 9.49
+    },
+    {
+      "batch": 200,
+      "seconds": 23.38,
+      "tps": 8.55
+    }
+  ],
+  "ipfs": [
+    {
+      "sizeKB": 1,
+      "addMsMedian": 38.2,
+      "catMsMedian": 7.6
+    },
+    {
+      "sizeKB": 10,
+      "addMsMedian": 26,
+      "catMsMedian": 2.3
+    },
+    {
+      "sizeKB": 100,
+      "addMsMedian": 23.9,
+      "catMsMedian": 4.2
+    },
+    {
+      "sizeKB": 1000,
+      "addMsMedian": 42.4,
+      "catMsMedian": 16.7
+    },
+    {
+      "sizeKB": 5000,
+      "addMsMedian": 125.1,
+      "catMsMedian": 59.4
+    }
+  ]
+}

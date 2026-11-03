@@ -1,0 +1,90 @@
+"""
+Figures 2-4 and the gas-saving figure for the revised manuscript (v2).
+
+  Fig. 2  permutation importance       <- results/fig3_permutation_importance.csv
+  Fig. 3  threshold analysis           <- results/fig4_threshold_sweep.csv
+  Fig. 4  IPFS latency vs file size    <- blockchain_results.json
+  Eq. 13  G_saved = N * rho * R * G_register  (printed)
+
+Usage:
+  pip install matplotlib pandas
+  python make_figures.py --results results --blockchain blockchain_results.json --n 10000
+"""
+import argparse
+import json
+import os
+
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import pandas as pd
+
+plt.rcParams.update({"font.family": "serif", "font.size": 11, "axes.spines.top": False,
+                     "axes.spines.right": False, "savefig.dpi": 300, "savefig.bbox": "tight"})
+
+
+def fig2(res, out):
+    imp = pd.read_csv(f"{res}/fig3_permutation_importance.csv").head(15).iloc[::-1]
+    fig, ax = plt.subplots(figsize=(6.5, 4.5))
+    ax.barh(imp["feature"], imp["importance_mean"], xerr=imp["importance_sd"], color="#4C72B0", capsize=2)
+    ax.set_xlabel("Decrease in PR-AUC")
+    fig.savefig(f"{out}/Fig2_permutation_importance.png")
+    print("Top three features:", ", ".join(imp["feature"].iloc[::-1].head(3)))
+
+
+def fig3(res, out):
+    t = pd.read_csv(f"{res}/fig4_threshold_sweep.csv")
+    best = t.loc[t["Expected cost"].idxmin(), "Threshold"]
+    fig, ax = plt.subplots(figsize=(6.5, 4))
+    ax.plot(t["Threshold"], t["Precision"], marker="o", ms=3, label="Precision")
+    ax.plot(t["Threshold"], t["Recall"], marker="s", ms=3, label="Recall")
+    ax.set_xlabel("Threshold τ"); ax.set_ylabel("Precision / Recall (%)")
+    ax2 = ax.twinx(); ax2.spines["top"].set_visible(False)
+    ax2.plot(t["Threshold"], t["Expected cost"], color="#C44E52", ls="--", label="Expected cost")
+    ax2.set_ylabel("Expected cost")
+    ax.axvline(best, color="grey", ls=":")
+    ax.text(best, ax.get_ylim()[0], f" τ* = {best:.2f}", va="bottom")
+    h1, l1 = ax.get_legend_handles_labels(); h2, l2 = ax2.get_legend_handles_labels()
+    ax.legend(h1 + h2, l1 + l2, loc="lower center", bbox_to_anchor=(0.5, 1.02), ncol=3, frameon=False)
+    fig.savefig(f"{out}/Fig3_threshold_analysis.png")
+    print(f"Cost-optimal threshold τ* = {best:.2f}")
+
+
+def fig4(bc, out):
+    ipfs = pd.DataFrame(bc["ipfs"])
+    if ipfs.empty:
+        return
+    fig, ax = plt.subplots(figsize=(6.5, 4))
+    ax.plot(ipfs["sizeKB"], ipfs["addMsMedian"], marker="o", label="Add (store)")
+    ax.plot(ipfs["sizeKB"], ipfs["catMsMedian"], marker="s", label="Cat (retrieve)")
+    ax.set_xscale("log"); ax.set_xlabel("Encrypted file size (KB)"); ax.set_ylabel("Median latency (ms)")
+    ax.legend(frameon=False)
+    fig.savefig(f"{out}/Fig4_ipfs_latency.png")
+
+
+def gas_saved(res, bc, n):
+    s = json.load(open(f"{res}/summary.json"))
+    rho = s["fraud_rate_pct"] / 100
+    h = pd.read_csv(f"{res}/holdout_confusion.csv")
+    row = h[h["Threshold"] == s["cost_optimal_threshold"]].iloc[0]
+    recall = row["Recall"] / 100
+    g = next(f["gasMedian"] for f in bc["functions"] if f["function"] == "registerLand")
+    print(f"Eq. 13: N = {n:,}, rho = {100 * rho:.1f}%, R = {recall:.2f}, G_register = {g:,} "
+          f"-> G_saved = {n * rho * recall * g / 1e6:.1f} x 10^6 gas")
+
+
+if __name__ == "__main__":
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--results", default="results")
+    ap.add_argument("--blockchain", default="blockchain_results.json")
+    ap.add_argument("--n", type=int, default=10000)
+    ap.add_argument("--out", default="figures")
+    a = ap.parse_args()
+    os.makedirs(a.out, exist_ok=True)
+    fig2(a.results, a.out)
+    fig3(a.results, a.out)
+    if os.path.exists(a.blockchain):
+        bc = json.load(open(a.blockchain))
+        fig4(bc, a.out)
+        gas_saved(a.results, bc, a.n)
+    print(f"Figures written to {a.out}/")

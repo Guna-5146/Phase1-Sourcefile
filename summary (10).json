@@ -1,0 +1,27 @@
+{
+  "n_records": 200000,
+  "n_features_raw": 31,
+  "n_fraud": 2206,
+  "fraud_rate_pct": 1.1,
+  "selected_features": [
+    "proposed_credit_limit",
+    "credit_risk_score",
+    "customer_age",
+    "keep_alive_session",
+    "income",
+    "housing_status",
+    "date_of_birth_distinct_emails_4w",
+    "phone_home_valid",
+    "current_address_months_count",
+    "name_email_similarity",
+    "has_other_cards",
+    "device_os",
+    "device_distinct_emails_8w",
+    "email_is_free",
+    "prev_address_months_count",
+    "foreign_request"
+  ],
+  "cost_optimal_threshold": 0.7,
+  "latency_ms_median": 78.22,
+  "latency_ms_p95": 99.74
+}

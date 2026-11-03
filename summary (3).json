@@ -1,0 +1,27 @@
+{
+  "n_records": 283726,
+  "n_features_raw": 30,
+  "n_fraud": 473,
+  "fraud_rate_pct": 0.17,
+  "selected_features": [
+    "V17",
+    "V14",
+    "V12",
+    "V10",
+    "V16",
+    "V3",
+    "V7",
+    "V11",
+    "V4",
+    "V18",
+    "V1",
+    "V9",
+    "V5",
+    "V2",
+    "V6",
+    "V8"
+  ],
+  "cost_optimal_threshold": 0.85,
+  "latency_ms_median": 85.81,
+  "latency_ms_p95": 107.1
+}

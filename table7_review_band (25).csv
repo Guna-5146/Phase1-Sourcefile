@@ -1,0 +1,4 @@
+Review band,Sent to manual review (%),Auto-decided error rate (%),Fraud missed by auto-accept
+"[0.2, 0.8)",0.03333333333333333,1.1003667889296431,33
+"[0.3, 0.7)",0.0,1.0999999999999999,33
+"[0.4, 0.6)",0.0,1.0999999999999999,33

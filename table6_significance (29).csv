@@ -1,0 +1,3 @@
+Comparison,Test,Proposed right / other wrong,Other right / proposed wrong,p-value
+Proposed vs XGBoost,McNemar (exact),4,0,0.125
+Proposed vs Random Forest,McNemar (exact),13,0,0.000244140625

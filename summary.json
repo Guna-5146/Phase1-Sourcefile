@@ -1,0 +1,27 @@
+{
+  "n_records": 80000,
+  "n_features_raw": 32,
+  "n_fraud": 5483,
+  "fraud_rate_pct": 6.85,
+  "selected_features": [
+    "same_survey_sales_90d",
+    "price_ratio",
+    "price_vs_market_diff",
+    "seller_in_revenue_records",
+    "village",
+    "seller_txn_count",
+    "ec_checked",
+    "poa_used",
+    "ownership_years",
+    "consideration_mode",
+    "days_since_prev_sale",
+    "buyer_is_relative",
+    "price_inr",
+    "poa_holder_is_relative",
+    "taluk",
+    "stamp_duty_paid"
+  ],
+  "cost_optimal_threshold": 0.5,
+  "latency_ms_median": 105.32,
+  "latency_ms_p95": 126.55
+}

@@ -1,0 +1,3 @@
+Model,Accuracy,Balanced acc.,Precision,Recall,F1,ROC-AUC,PR-AUC,MCC,Train time/fold (s)
+All features,94.44 ± 0.26,69.17 ± 0.91,8.83 ± 0.43,43.34 ± 1.92,14.67 ± 0.64,84.80 ± 0.89,9.73 ± 1.23,17.70 ± 0.79,391.7
+Without engineered price features,94.44 ± 0.26,69.17 ± 0.91,8.83 ± 0.43,43.34 ± 1.92,14.67 ± 0.64,84.80 ± 0.89,9.73 ± 1.23,17.70 ± 0.79,407.3
